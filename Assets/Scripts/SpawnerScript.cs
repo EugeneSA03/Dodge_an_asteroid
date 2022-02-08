@@ -6,12 +6,15 @@ public class SpawnerScript : MonoBehaviour
 {
     private class Enemy {
         public GameObject prefab = null;
-        public double speed = 0;
-        public float lifeTime = 0f;
+        public float speed = 0;
+        
     }
 
     public GameObject prefab = null;
     public int maxEnemies = 1;
+    public float maxEnemyScale = 3;
+    public uint maxEnemySpeed = 3;
+    public uint minEnemySpeed = 3;
 
     private GameObject spawner = null;
     private List<Enemy> enemies = null;
@@ -35,14 +38,23 @@ public class SpawnerScript : MonoBehaviour
     void FixedUpdate() {
         if (enemies.Count < maxEnemies) {
             enemyTemp = new Enemy ();
-            enemyTemp.speed = random.NextDouble();
             enemyTemp.prefab = Instantiate(prefab);
+
+            enemyTemp.speed = random.Next((int)minEnemySpeed, (int)maxEnemySpeed);
+
+            float eScale = maxEnemyScale / enemyTemp.speed;
+
+            enemyTemp.prefab.GetComponent<Rigidbody>().mass = eScale;
+            enemyTemp.prefab.transform.localScale = new Vector3(eScale, eScale, eScale);
+
             enemyTemp.prefab.transform.position = new Vector3(random.Next(-70, 70), random.Next(-35, 35), spawner.transform.position.z);
-            enemyTemp.prefab.name = enemies.Count.ToString();
+
             enemies.Add (enemyTemp);
         }
         for (int i = 0; i < enemies.Count; i++) {
-            if (enemies[i].prefab.transform.position.z < -20) {
+            if (enemies[i].prefab.transform.position.z < -20 ||
+                Mathf.Abs(enemies[i].prefab.transform.position.x) > 70 ||
+                Mathf.Abs(enemies[i].prefab.transform.position.y) > 35) {
                 DestroyImmediate (enemies[i].prefab, true);
                 enemies.RemoveAt (i);
             }
