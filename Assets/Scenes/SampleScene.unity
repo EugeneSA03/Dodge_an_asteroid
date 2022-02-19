@@ -232,9 +232,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 6545064691600931210, guid: 57ad4bfe588104d4cad04bed4f92e78b, type: 3}
-  maxEnemies: 300
-  maxEnemyScale: 4.5
-  maxEnemySpeed: 6
+  maxEnemies: 500
+  maxEnemyScale: 9
+  maxEnemySpeed: 10
   minEnemySpeed: 1
 --- !u!1 &705507993
 GameObject:
