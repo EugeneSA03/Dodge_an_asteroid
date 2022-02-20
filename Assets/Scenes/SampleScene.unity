@@ -231,9 +231,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08e9005230ca86a45a41407c6ddaf2c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 6545064691600931210, guid: 57ad4bfe588104d4cad04bed4f92e78b, type: 3}
-  maxEnemies: 500
-  maxEnemyScale: 9
+  prefab: {fileID: 3881589954574187870, guid: 3201a0950ce78d948ac0a223a1ba2723, type: 3}
+  maxEnemies: 20
+  maxEnemyScale: 6
   maxEnemySpeed: 10
   minEnemySpeed: 1
 --- !u!1 &705507993

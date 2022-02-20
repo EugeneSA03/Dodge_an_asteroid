@@ -45,9 +45,9 @@ public class SpawnerScript : MonoBehaviour
             float eScale = maxEnemyScale / enemyTemp.speed;
 
             enemyTemp.prefab.GetComponent<Rigidbody>().mass = eScale;
-            enemyTemp.prefab.transform.localScale = new Vector3(eScale, eScale, eScale);
+            enemyTemp.prefab.transform.localScale = new Vector3(eScale * 100, eScale * 100, eScale * 100);
 
-            enemyTemp.prefab.transform.position = new Vector3(random.Next(-70, 70), random.Next(-35, 35), spawner.transform.position.z);
+            enemyTemp.prefab.transform.position = new Vector3(random.Next(-10, 10), random.Next(-15, 15), spawner.transform.position.z);
 
             enemies.Add (enemyTemp);
         }
