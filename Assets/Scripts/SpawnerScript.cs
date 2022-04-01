@@ -10,11 +10,12 @@ public class SpawnerScript : MonoBehaviour
         
     }
 
-    public GameObject prefab = null;
-    public int maxEnemies = 1;
-    public float maxEnemyScale = 3;
+    public GameObject[] prefabs;
+    public int maxEnemies = 200;
+    public float minEnemyScale = 20;
+    public float maxEnemyScale = 250;
+    public uint minEnemySpeed = 1;
     public uint maxEnemySpeed = 3;
-    public uint minEnemySpeed = 3;
 
     private GameObject spawner = null;
     private List<Enemy> enemies = null;
@@ -38,18 +39,20 @@ public class SpawnerScript : MonoBehaviour
     void FixedUpdate() {
         if (enemies.Count < maxEnemies) {
             enemyTemp = new Enemy ();
-            enemyTemp.prefab = Instantiate(prefab);
+            enemyTemp.prefab = Instantiate(prefabs[random.Next(0, 4)]);
 
-            enemyTemp.speed = random.Next((int)minEnemySpeed, (int)maxEnemySpeed);
+            enemyTemp.speed = (float)random.NextDouble() * (maxEnemySpeed - minEnemySpeed) + minEnemySpeed;
 
-            float eScale = maxEnemyScale / enemyTemp.speed;
+            float eScale = (enemyTemp.speed / maxEnemySpeed) * (maxEnemyScale - minEnemyScale) + minEnemyScale;
 
             enemyTemp.prefab.GetComponent<Rigidbody>().mass = eScale;
             enemyTemp.prefab.transform.localScale = new Vector3(eScale, eScale, eScale);
 
             enemyTemp.prefab.transform.position = new Vector3(random.Next(-70, 70), random.Next(-35, 35), spawner.transform.position.z);
+            enemyTemp.prefab.transform.rotation = new Quaternion(random.Next(0, 360), random.Next(0, 360), random.Next(0, 360), 1);
+            enemyTemp.prefab.transform.Rotate(new Vector3(random.Next(0, 10), random.Next(0, 10), random.Next(0, 10)));
 
-            enemies.Add (enemyTemp);
+            enemies.Add(enemyTemp);
         }
         for (int i = 0; i < enemies.Count; i++) {
             if (enemies[i].prefab.transform.position.z < -20 ||
@@ -59,7 +62,7 @@ public class SpawnerScript : MonoBehaviour
                 enemies.RemoveAt (i);
             }
             else {
-                enemies[i].prefab.transform.Translate(0, 0, (float)enemies[i].speed * 0.1f);
+                enemies[i].prefab.transform.Translate(0, 0, -(float)enemies[i].speed * 0.1f, Space.World);
             }
         }
     }
