@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnerScript : MonoBehaviour
 {
-    class Enemy {
+    public class Enemy {
         public GameObject body;
         public float speed;
         public Vector3 rotation;
@@ -19,7 +19,9 @@ public class SpawnerScript : MonoBehaviour
 
     public uint numOfEnemies = 300;
 
-    private List<Enemy> enemies;
+    public Vector2 spawnField = Vector2.zero;
+
+    public static List<Enemy> enemies;
     private GameObject spawner = null;
     private System.Random random = null;
 
@@ -44,7 +46,7 @@ public class SpawnerScript : MonoBehaviour
             et.body.transform.localScale = new Vector3(etscale, etscale, etscale);
             et.body.GetComponent<Rigidbody>().mass = etscale;
 
-            et.body.transform.position = new Vector3(random.Next(-10, 10), random.Next(-15, 15), spawner.transform.position.z);
+            et.body.transform.position = new Vector3(random.Next(-(int)spawnField.x, (int)spawnField.x), random.Next(-(int)spawnField.y, (int)spawnField.y), spawner.transform.position.z);
             et.body.transform.rotation = new Quaternion((float)random.NextDouble() * 1000 % 360, (float)random.NextDouble() * 1000 % 360, (float)random.NextDouble() * 1000 % 360, 1);
 
             enemies.Add(et);

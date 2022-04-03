@@ -7,12 +7,16 @@ public class PlayerControllerScript : MonoBehaviour
 
     public float playerSpeed = 0.1f;
 
+    private GameObject scrpt;
     private GameObject player = null;
+
+    private Vector3 direction = Vector3.zero;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        
         player = this.gameObject;
     }
 
@@ -23,14 +27,24 @@ public class PlayerControllerScript : MonoBehaviour
     }
 
     void FixedUpdate() {
+        direction = Vector3.zero;
+
+        direction.x = -Input.acceleration.x * playerSpeed;
+        direction.y = Input.acceleration.y * playerSpeed;
+
         if (Input.GetKey(KeyCode.RightArrow))
-            player.GetComponentInChildren<Transform>().Translate(new Vector3(playerSpeed, 0, 0));
+            direction.x = -1 * playerSpeed;
         if (Input.GetKey(KeyCode.UpArrow))
-            player.GetComponentInChildren<Transform>().Translate(new Vector3(0, 0, playerSpeed));
+            direction.y = 1 * playerSpeed;
         if (Input.GetKey(KeyCode.LeftArrow))
-            player.GetComponentInChildren<Transform>().Translate(new Vector3(-playerSpeed, 0, 0));
+            direction.x = 1 * playerSpeed;
         if (Input.GetKey(KeyCode.DownArrow))
-            player.GetComponentInChildren<Transform>().Translate(new Vector3(0, 0, -playerSpeed));
-        player.GetComponentInChildren<Transform>().Translate(new Vector3(Input.acceleration.x * playerSpeed, 0, Input.acceleration.y * playerSpeed));
+            direction.y = -1 * playerSpeed;
+
+        for (int i = 0; i < SpawnerScript.enemies.Count; i++) {
+            direction.z = SpawnerScript.enemies[i].speed + direction.z / 2;
+            SpawnerScript.enemies[i].body.transform.Translate(direction, Space.World);
+        }
+        //player.GetComponentInChildren<Transform>().Translate(direction);
     }
 }
