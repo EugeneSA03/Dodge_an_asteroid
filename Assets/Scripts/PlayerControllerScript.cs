@@ -42,7 +42,7 @@ public class PlayerControllerScript : MonoBehaviour
             direction.y = -1 * playerSpeed;
 
         for (int i = 0; i < SpawnerScript.enemies.Count; i++) {
-            direction.z = SpawnerScript.enemies[i].speed + direction.z / 2;
+            //direction.z = SpawnerScript.enemies[i].speed + direction.z / 2;
             SpawnerScript.enemies[i].body.transform.Translate(direction, Space.World);
         }
         //player.GetComponentInChildren<Transform>().Translate(direction);
