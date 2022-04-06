@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SpawnerScript : MonoBehaviour
 {
@@ -26,9 +27,13 @@ public class SpawnerScript : MonoBehaviour
     private GameObject spawner = null;
     private System.Random random = null;
 
+
+    private int _gameStatus;
+
     // Start is called before the first frame update
     void Start()
     {
+        GlobalEventManager.OnGameStatusChanged.AddListener(GameStatus => _gameStatus = GameStatus);
         enemies = new List<Enemy>();
         spawner = this.gameObject;
         random = new System.Random();
@@ -37,7 +42,7 @@ public class SpawnerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isPlaying) {
+        if (_gameStatus == 1) {
             if (enemies.Count < numOfEnemies) {
                 Enemy et = new Enemy();
                 et.body = Instantiate(enemyMeshs[random.Next(0, 4)]);
@@ -57,7 +62,7 @@ public class SpawnerScript : MonoBehaviour
     }
 
     void FixedUpdate() {
-        if (isPlaying) {
+        if (_gameStatus == 1) {
             for (int i = 0; i < enemies.Count; i++) {
                 if (enemies[i].body.transform.position.z < -20 ||
                     Mathf.Abs(enemies[i].body.transform.position.x) > 70 ||
