@@ -10,7 +10,7 @@ public class PlayerControllerScript : MonoBehaviour
     private GameObject scrpt;
     private GameObject player = null;
 
-    private Vector3 direction = Vector3.zero;
+    public static Vector3 direction = Vector3.zero;
 
 
     // Start is called before the first frame update
