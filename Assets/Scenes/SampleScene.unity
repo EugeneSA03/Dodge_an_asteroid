@@ -688,8 +688,8 @@ MonoBehaviour:
   enemyScaleMax: 120
   enemySpeedMin: 15
   enemySpeedMax: 70
-  numOfEnemies: 400
-  spawnField: {x: 60, y: 40}
+  numOfEnemies: 1500
+  spawnField: {x: 200, y: 150}
   isPlaying: 0
 --- !u!4 &849498864
 Transform:
@@ -699,7 +699,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 849498862}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 50}
+  m_LocalPosition: {x: 0, y: 0, z: 100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -771,6 +771,30 @@ PrefabInstance:
     - target: {fileID: 2717950253288827156, guid: fba48d00b62048d408a7b3497f05ed80, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755914511986185855, guid: fba48d00b62048d408a7b3497f05ed80, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755914511986185855, guid: fba48d00b62048d408a7b3497f05ed80, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755914511986185855, guid: fba48d00b62048d408a7b3497f05ed80, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 6004888342189924037, guid: fba48d00b62048d408a7b3497f05ed80, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6004888342189924037, guid: fba48d00b62048d408a7b3497f05ed80, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6004888342189924037, guid: fba48d00b62048d408a7b3497f05ed80, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 8548971890007667929, guid: fba48d00b62048d408a7b3497f05ed80, type: 3}
       propertyPath: moveWithTransform

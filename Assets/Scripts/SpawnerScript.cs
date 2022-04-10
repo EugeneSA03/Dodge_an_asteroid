@@ -26,6 +26,7 @@ public class SpawnerScript : MonoBehaviour
     public static List<Enemy> enemies;
     private GameObject spawner = null;
     private System.Random random = null;
+    private float coneSpawn = 1;
 
 
     private int _gameStatus;
@@ -39,34 +40,33 @@ public class SpawnerScript : MonoBehaviour
         random = new System.Random();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void FixedUpdate() {
         if (_gameStatus == 1) {
             if (enemies.Count < numOfEnemies) {
                 Enemy et = new Enemy();
                 et.body = Instantiate(enemyMeshs[random.Next(0, 4)]);
                 et.speed = random.Next(enemySpeedMin, enemySpeedMax) / 10;
-                et.rotation = new Vector3(random.Next(1, 40) / 10.0f, random.Next(1, 40) / 10.0f, random.Next(1, 40) / 10.0f);
+                et.rotation = new Vector3(random.Next(1, 40) / 15.0f, random.Next(1, 40) / 15.0f, random.Next(1, 40) / 15.0f);
 
                 float etscale = enemyScaleMax - enemyScaleMax * 10 * et.speed / enemySpeedMax;
                 et.body.transform.localScale = new Vector3(etscale, etscale, etscale);
                 et.body.GetComponent<Rigidbody>().mass = etscale;
 
-                et.body.transform.position = new Vector3(random.Next(-(int)spawnField.x, (int)spawnField.x), random.Next(-(int)spawnField.y, (int)spawnField.y), spawner.transform.position.z);
+                Vector3 loc = new Vector3(random.Next(-(int)spawnField.x, (int)spawnField.x), random.Next(-(int)spawnField.y, (int)spawnField.y), spawner.transform.position.z);
+                loc.z += Mathf.Sqrt((loc.x * loc.x) + (loc.y * loc.y)) * coneSpawn;
+
+                et.rotation = loc;
                 et.body.transform.rotation = new Quaternion((float)random.NextDouble() * 1000 % 360, (float)random.NextDouble() * 1000 % 360, (float)random.NextDouble() * 1000 % 360, 1);
 
                 enemies.Add(et);
             }
         }
-    }
-
-    void FixedUpdate() {
         if (_gameStatus == 1) {
             for (int i = 0; i < enemies.Count; i++) {
-                if (enemies[i].body.transform.position.z < -20 ||
-                    Mathf.Abs(enemies[i].body.transform.position.x) > 70 ||
-                    Mathf.Abs(enemies[i].body.transform.position.y) > 35) {
+                if (enemies[i].body.transform.position.z > spawner.transform.position.z + 1 ||
+                    enemies[i].body.transform.position.z < -10 ||
+                    Mathf.Abs(enemies[i].body.transform.position.x) > spawnField.x ||
+                    Mathf.Abs(enemies[i].body.transform.position.y) > spawnField.y) {
                     DestroyImmediate(enemies[i].body, true);
                     enemies.RemoveAt(i);
                 }
