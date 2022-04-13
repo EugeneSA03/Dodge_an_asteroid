@@ -26,42 +26,27 @@ public class SpawnerScript : MonoBehaviour
     public static List<Enemy> enemies;
     private GameObject spawner = null;
     private System.Random random = null;
-    private float coneSpawn = 1;
+    private float coneSpawn = -1.2f;
 
 
-    private int _gameStatus;
+    private int gameStatus;
 
     // Start is called before the first frame update
     void Start()
     {
-        GlobalEventManager.OnGameStatusChanged.AddListener(GameStatus => _gameStatus = GameStatus);
+        GlobalEventManager.OnGameStatusChanged.AddListener(GameStatus => gameStatus = GameStatus);
         enemies = new List<Enemy>();
         spawner = this.gameObject;
         random = new System.Random();
     }
 
     void FixedUpdate() {
-        if (_gameStatus == 1) {
+        if (gameStatus == 1) {
             if (enemies.Count < numOfEnemies) {
-                Enemy et = new Enemy();
-                et.body = Instantiate(enemyMeshs[random.Next(0, 4)]);
-                et.speed = random.Next(enemySpeedMin, enemySpeedMax) / 10;
-                et.rotation = new Vector3(random.Next(1, 40) / 15.0f, random.Next(1, 40) / 15.0f, random.Next(1, 40) / 15.0f);
-
-                float etscale = enemyScaleMax - enemyScaleMax * 10 * et.speed / enemySpeedMax;
-                et.body.transform.localScale = new Vector3(etscale, etscale, etscale);
-                et.body.GetComponent<Rigidbody>().mass = etscale;
-
-                Vector3 loc = new Vector3(random.Next(-(int)spawnField.x, (int)spawnField.x), random.Next(-(int)spawnField.y, (int)spawnField.y), spawner.transform.position.z);
-                loc.z += Mathf.Sqrt((loc.x * loc.x) + (loc.y * loc.y)) * coneSpawn;
-
-                et.rotation = loc;
-                et.body.transform.rotation = new Quaternion((float)random.NextDouble() * 1000 % 360, (float)random.NextDouble() * 1000 % 360, (float)random.NextDouble() * 1000 % 360, 1);
-
-                enemies.Add(et);
+                SpawnEnemy(2);
             }
         }
-        if (_gameStatus == 1) {
+        if (gameStatus == 1) {
             for (int i = 0; i < enemies.Count; i++) {
                 if (enemies[i].body.transform.position.z > spawner.transform.position.z + 1 ||
                     enemies[i].body.transform.position.z < -10 ||
@@ -75,6 +60,27 @@ public class SpawnerScript : MonoBehaviour
                     enemies[i].body.transform.Translate(0, 0, -enemies[i].speed * 0.1f, Space.World);
                 }
             }
+        }
+    }
+
+    private void SpawnEnemy(int count) {
+        for (int i = 0; i < count; i++) {
+            Enemy et = new Enemy();
+            et.body = Instantiate(enemyMeshs[random.Next(0, 4)]);
+            et.speed = random.Next(enemySpeedMin, enemySpeedMax) / 10;
+            et.rotation = new Vector3(random.Next(1, 40) / 15.0f, random.Next(1, 40) / 15.0f, random.Next(1, 40) / 15.0f);
+
+            float etscale = enemyScaleMax - enemyScaleMax * 8 * et.speed / enemySpeedMax;
+            et.body.transform.localScale = new Vector3(etscale, etscale, etscale);
+            et.body.GetComponent<Rigidbody>().mass = etscale;
+
+            Vector3 loc = new Vector3(random.Next(-(int)spawnField.x, (int)spawnField.x), random.Next(-(int)spawnField.y, (int)spawnField.y), spawner.transform.position.z);
+            loc.z += Mathf.Sqrt((loc.x * loc.x) + (loc.y * loc.y)) * coneSpawn;
+
+            et.body.transform.position = loc;
+            et.body.transform.rotation = new Quaternion((float)random.NextDouble() * 1000 % 360, (float)random.NextDouble() * 1000 % 360, (float)random.NextDouble() * 1000 % 360, 1);
+
+            enemies.Add(et);
         }
     }
 }
