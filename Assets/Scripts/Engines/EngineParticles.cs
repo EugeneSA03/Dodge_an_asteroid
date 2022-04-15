@@ -16,6 +16,7 @@ public class EngineParticles : MonoBehaviour {
     /// </summary>
     public List<ParticleSystem> engines;
     public float forceSize = 10.0f;
+    public Vector3 particleSpeed = new Vector3(1.0f, 1.0f, 5.0f);
 
     private List<ParticleSystem.ForceOverLifetimeModule> folts;
 
@@ -25,7 +26,7 @@ public class EngineParticles : MonoBehaviour {
         GlobalEventManager.OnGameStatusChanged.AddListener(SetParticleStatus);
 
         for (int i = 0; i < engines.Count; i++) {
-            folts.Add(engines[i].forceOverLifetime);
+            //folts.Add(engines[i].forceOverLifetime);
         }
     }
 
@@ -40,16 +41,16 @@ public class EngineParticles : MonoBehaviour {
         //Main left
         {
             ParticleSystem.ForceOverLifetimeModule fo = engines[0].forceOverLifetime;
-            fo.x = new ParticleSystem.MinMaxCurve(dir.x * -forceSize);
-            fo.y = new ParticleSystem.MinMaxCurve(dir.y * forceSize);
-            fo.z = new ParticleSystem.MinMaxCurve(dir.z * forceSize);
+            fo.x = new ParticleSystem.MinMaxCurve((dir.x * -forceSize) + particleSpeed.x);
+            fo.y = new ParticleSystem.MinMaxCurve((dir.y * forceSize) + particleSpeed.y);
+            fo.z = new ParticleSystem.MinMaxCurve((dir.z * forceSize) + particleSpeed.z);
         }
         //Main right
         {
             ParticleSystem.ForceOverLifetimeModule fo = engines[1].forceOverLifetime;
-            fo.x = new ParticleSystem.MinMaxCurve(dir.x * -forceSize);
-            fo.y = new ParticleSystem.MinMaxCurve(dir.y * forceSize);
-            fo.z = new ParticleSystem.MinMaxCurve(dir.z * forceSize);
+            fo.x = new ParticleSystem.MinMaxCurve((dir.x * -forceSize) + particleSpeed.x);
+            fo.y = new ParticleSystem.MinMaxCurve((dir.y * forceSize) + particleSpeed.y);
+            fo.z = new ParticleSystem.MinMaxCurve((dir.z * forceSize) + particleSpeed.z);
         }
     }
 

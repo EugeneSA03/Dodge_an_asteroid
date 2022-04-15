@@ -359,6 +359,7 @@ MonoBehaviour:
   - {fileID: 1693342655}
   - {fileID: 35931457}
   forceSize: 10
+  particleSpeed: {x: 0, y: 0, z: 5}
 --- !u!1 &687705793
 GameObject:
   m_ObjectHideFlags: 0

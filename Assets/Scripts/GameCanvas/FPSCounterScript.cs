@@ -12,6 +12,7 @@ public class FPSCounterScript : MonoBehaviour
     void Start()
     {
         txt = this.gameObject.GetComponent<Text>();
+        txt.fontSize = Screen.height / 20;
     }
 
 

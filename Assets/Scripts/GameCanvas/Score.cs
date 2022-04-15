@@ -15,6 +15,7 @@ public class Score : MonoBehaviour
     void Start()
     {
         scoreText = this.GetComponent<Text>();
+        scoreText.fontSize = Screen.height / 20;
         GlobalEventManager.OnGameStatusChanged.AddListener(GameStatus => { gameStatus = GameStatus; inGame = gameStatus == 1; Debug.Log(inGame); });
     }
 
