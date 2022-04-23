@@ -16,13 +16,14 @@ public class Score : MonoBehaviour
     {
         scoreText = this.GetComponent<Text>();
         scoreText.fontSize = Screen.height / 20;
-        GlobalEventManager.OnGameStatusChanged.AddListener(GameStatus => { gameStatus = GameStatus; inGame = gameStatus == 1; Debug.Log(inGame); });
+        inGame = true;
+        GlobalEventManager.OnGameStatusChanged.AddListener(GameStatus => { gameStatus = GameStatus; inGame = gameStatus == 1;});
     }
 
     private void FixedUpdate() {
         if (inGame) {
             scoreValue += Time.unscaledDeltaTime;
-            scoreText.text = "Score: " + Mathf.Round(scoreValue).ToString();
+            scoreText.text = "Score: " + (Mathf.Round(scoreValue * 100) / 100).ToString();
         }
     }
 }
