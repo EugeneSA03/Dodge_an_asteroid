@@ -7,22 +7,13 @@ public class GameControllerScript : MonoBehaviour
     public GameObject gameUI = null;
     public GameObject menuUI = null;
 
-
-    /// <summary>
-    /// <list type="bullet">
-    /// <item>(0) ended</item>
-    /// <item>(1) started</item>
-    /// <item>(2) paused</item>
-    /// </list>
-    /// </summary>
-    private int _gameStatus;
-
     // Start is called before the first frame update
     void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
         GlobalEventManager.OnGameStatusChanged.AddListener(SetUI);
-        GlobalEventManager.OnGameStatusChanged.Invoke(0);
+        GlobalEventManager.OnGameStatusChanged.Invoke(4);
     }
 
     // Update is called once per frame
@@ -34,14 +25,20 @@ public class GameControllerScript : MonoBehaviour
         
     }
 
-    void SetUI(int _gameStatus) {
-        if (_gameStatus == 0) {
-            gameUI.SetActive(false);
-            menuUI.SetActive(true);
-        }
-        else if (_gameStatus == 1) {
-            gameUI.SetActive(true);
-            menuUI.SetActive(false);
+    void SetUI(int gameStatus) {
+        switch (gameStatus) {
+            case 0: 
+                menuUI.SetActive(true);
+                gameUI.SetActive(false);
+                break;
+            case 1:
+                menuUI.SetActive(false);
+                gameUI.SetActive(true);
+                break;
+            case 4:
+                menuUI.SetActive(true);
+                gameUI.SetActive(false);
+                break;
         }
     }
 }

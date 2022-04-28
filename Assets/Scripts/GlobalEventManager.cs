@@ -8,9 +8,11 @@ public class GlobalEventManager : MonoBehaviour
     /// <summary>
     /// <param name="arg0">
     /// <list type="bullet">
-    /// <item>(0) ENDED</item>
-    /// <item>(1) STARTED</item>
-    /// <item>(2) PAUSED</item>
+    /// <item>(0) MENU</item>
+    /// <item>(1) GAME</item>
+    /// <item>(2) PAUSE</item>
+    /// <item>(3) OVER</item>
+    /// <item>(4) OPEN APP</item>
     /// </list>
     /// </param>
     /// </summary>
