@@ -11,6 +11,7 @@ public class GameControllerScript : MonoBehaviour
     void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        Application.targetFrameRate = 60;
 
         GlobalEventManager.OnGameStatusChanged.AddListener(SetUI);
         GlobalEventManager.OnGameStatusChanged.Invoke(4);

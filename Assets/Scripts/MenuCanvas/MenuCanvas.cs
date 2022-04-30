@@ -7,4 +7,8 @@ public class MenuCanvas : MonoBehaviour
     public void StartButtonPressed() {
         GlobalEventManager.OnGameStatusChanged.Invoke(1);
     }
+
+    public void ExitBtnPressed() {
+        Application.Quit();
+    }
 }

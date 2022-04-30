@@ -4,14 +4,25 @@ using UnityEngine;
 
 public class StarSpawner : MonoBehaviour
 {
-    public GameObject prefab;
+    [SerializeField] private GameObject prefab;
+    [SerializeField] private GameObject player;
 
-    public Gradient redStarColor;
-    public Gradient yellowStarColor;
-    public Gradient whiteStarColor;
-    public Gradient blueStarColor;
+    [SerializeField] private Gradient redStarColor;
+    [SerializeField] private Gradient yellowStarColor;
+    [SerializeField] private Gradient whiteStarColor;
+    [SerializeField] private Gradient blueStarColor;
 
-    private List<Star> stars;
+    [SerializeField] private Color redCoreColor;
+    [SerializeField] private Color yellowCoreColor;
+    [SerializeField] private Color whiteCoreColor;
+    [SerializeField] private Color blueCoreColor;
+
+    [SerializeField] private Color redLightColor;
+    [SerializeField] private Color yellowLightColor;
+    [SerializeField] private Color whiteLightColor;
+    [SerializeField] private Color blueLightColor;
+
+    public static List<Star> stars;
     private System.Random random = new System.Random();
 
     public class Star {
@@ -24,6 +35,8 @@ public class StarSpawner : MonoBehaviour
 
         public Renderer coreRender;
 
+        public Light starLight;
+
         public Star(GameObject _prefab) {
             prefab = _prefab;
 
@@ -31,6 +44,7 @@ public class StarSpawner : MonoBehaviour
             psShape = ps.shape;
             psMain = ps.main;
             psColorOLT = ps.colorOverLifetime;
+            starLight = prefab.GetComponentInChildren<Light>();
 
             coreRender = prefab.transform.GetChild(1).gameObject.GetComponent<Renderer>();
         }
@@ -53,40 +67,48 @@ public class StarSpawner : MonoBehaviour
             GameObject temp = Instantiate(prefab);
 
             Star tStar = new Star(temp);
-            
-            float lScale = random.Next(20, 40);
+
+            float lScale = random.Next(60, 100);
 
             //Set random star color
             switch (random.Next(0,4)) {
                 //Star color RED
                 case 0: 
                     tStar.psColorOLT.color = redStarColor;
-                    tStar.coreRender.material.color = new Color(80, 0, 0);
+                    tStar.coreRender.material.color = redCoreColor;
+                    tStar.starLight.color = redLightColor;
                     break;
                 //Star color YELLOW
                 case 1:
                     tStar.psColorOLT.color = yellowStarColor;
-                    tStar.coreRender.material.color = new Color(80, 80, 0);
+                    tStar.coreRender.material.color = yellowCoreColor;
+                    tStar.starLight.color = yellowLightColor;
                     break;
                 //Star color WHITE
                 case 2: 
                     tStar.psColorOLT.color = whiteStarColor;
-                    tStar.coreRender.material.color = new Color(80, 80, 80);
+                    tStar.coreRender.material.color = whiteCoreColor;
+                    tStar.starLight.color = whiteLightColor;
                     break;
                 //Star color BLUE
                 case 3: 
                     tStar.psColorOLT.color = blueStarColor;
-                    tStar.coreRender.material.color = new Color(0, 0, 80);
+                    tStar.coreRender.material.color = blueCoreColor;
+                    tStar.starLight.color = blueLightColor;
                     break;
             }
 
-            tStar.prefab.transform.position = new Vector3((random.Next(0, 2) * 2 - 1) * random.Next(50, 150), random.Next(-30, 30), this.transform.position.z);
+            tStar.prefab.transform.position = new Vector3((random.Next(0, 2) * 2 - 1) * random.Next(170, 300), random.Next(-30, 30), this.transform.position.z);
             tStar.prefab.transform.localScale = new Vector3(lScale, lScale, lScale);
             tStar.psShape.radius = lScale;
             tStar.ps.time = 6.0f;
             tStar.psMain.startSize = lScale;
 
             stars.Add(tStar);
+        }
+
+        for (int i = 0; i < stars.Count; i++) {
+            stars[i].prefab.transform.LookAt(player.transform);
         }
     }
 }

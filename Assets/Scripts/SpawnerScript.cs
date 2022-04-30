@@ -5,29 +5,36 @@ using UnityEngine.Events;
 
 public class SpawnerScript : MonoBehaviour
 {
-    public class Enemy {
+    public class Asteroid {
         public GameObject body;
+        /// <summary>
+        /// 0 - asteroid;
+        /// 1 - gold
+        /// </summary>
+        public int type;
         public float speed;
         public Vector3 rotation;
     }
 
-    public GameObject[] enemyMeshs = null;
+    [SerializeField] private GameObject[] asteroidMeshs = null;
 
-    public int enemyScaleMax = 200;
+    [SerializeField] private int asteroidScaleMax = 200;
+    [SerializeField] private int asteroidSpeedMin = 20;
+    [SerializeField] private int asteroidSpeedMax = 90;
+    [SerializeField] private uint numOfAsteroids = 300;
 
-    public int enemySpeedMin = 20;
-    public int enemySpeedMax = 90;
+    [SerializeField] private Vector2 spawnField = Vector2.zero;
 
-    public uint numOfEnemies = 300;
+    [SerializeField] private bool isPlaying = false;
 
-    public Vector2 spawnField = Vector2.zero;
+    [SerializeField] private float coneSpawn = -1.2f;
 
-    public bool isPlaying = false;
-    public static List<Enemy> enemies;
+    [SerializeField] private int goldChance;
+
+    public static List<Asteroid> asteroids;
+
     private GameObject spawner = null;
     private System.Random random = null;
-    private float coneSpawn = -1.2f;
-
 
     private int gameStatus;
 
@@ -35,52 +42,61 @@ public class SpawnerScript : MonoBehaviour
     void Start()
     {
         GlobalEventManager.OnGameStatusChanged.AddListener(GameStatus => gameStatus = GameStatus);
-        enemies = new List<Enemy>();
+        asteroids = new List<Asteroid>();
         spawner = this.gameObject;
         random = new System.Random();
     }
 
     void FixedUpdate() {
         if (gameStatus == 1) {
-            if (enemies.Count < numOfEnemies) {
-                SpawnEnemy(2);
+            if (asteroids.Count < numOfAsteroids) {
+                SpawnAsteroid(2);
             }
+
         }
         if (gameStatus == 1) {
-            for (int i = 0; i < enemies.Count; i++) {
-                if (enemies[i].body.transform.position.z > spawner.transform.position.z + 1 ||
-                    enemies[i].body.transform.position.z < -10 ||
-                    Mathf.Abs(enemies[i].body.transform.position.x) > spawnField.x ||
-                    Mathf.Abs(enemies[i].body.transform.position.y) > spawnField.y) {
-                    DestroyImmediate(enemies[i].body, true);
-                    enemies.RemoveAt(i);
+            for (int i = 0; i < asteroids.Count; i++) {
+                if (asteroids[i].body.transform.position.z > spawner.transform.position.z + 1 ||
+                    asteroids[i].body.transform.position.z < -10 ||
+                    Mathf.Abs(asteroids[i].body.transform.position.x) > spawnField.x ||
+                    Mathf.Abs(asteroids[i].body.transform.position.y) > spawnField.y) {
+                    DestroyImmediate(asteroids[i].body, true);
+                    asteroids.RemoveAt(i);
                 }
                 else {
-                    enemies[i].body.transform.Rotate(enemies[i].rotation);
-                    enemies[i].body.transform.Translate(0, 0, -enemies[i].speed * 0.1f, Space.World);
+                    asteroids[i].body.transform.Rotate(asteroids[i].rotation);
+                    asteroids[i].body.transform.Translate(0, 0, -asteroids[i].speed * 0.1f, Space.World);
                 }
             }
         }
     }
 
-    private void SpawnEnemy(int count) {
+    private void SpawnAsteroid(int count) {
         for (int i = 0; i < count; i++) {
-            Enemy et = new Enemy();
-            et.body = Instantiate(enemyMeshs[random.Next(0, 4)]);
-            et.speed = random.Next(enemySpeedMin, enemySpeedMax) / 10;
-            et.rotation = new Vector3(random.Next(1, 40) / 15.0f, random.Next(1, 40) / 15.0f, random.Next(1, 40) / 15.0f);
+            Asteroid ast = new Asteroid();
 
-            float etscale = enemyScaleMax - enemyScaleMax * 8 * et.speed / enemySpeedMax;
-            et.body.transform.localScale = new Vector3(etscale, etscale, etscale);
-            et.body.GetComponent<Rigidbody>().mass = etscale;
+            int chance = random.Next(0, 100);
+            if (chance >= 0 && chance < goldChance) {
+                ast.body = Instantiate(asteroidMeshs[0]);
+            }
+            else {
+                ast.body = Instantiate(asteroidMeshs[random.Next(1, 6)]);
+            }
+
+            ast.speed = random.Next(asteroidSpeedMin, asteroidSpeedMax) / 10;
+            ast.rotation = new Vector3(random.Next(1, 40) / 15.0f, random.Next(1, 40) / 15.0f, random.Next(1, 40) / 15.0f);
+
+            float etscale = asteroidScaleMax - asteroidScaleMax * 8 * ast.speed / asteroidSpeedMax;
+            ast.body.transform.localScale = new Vector3(etscale, etscale, etscale);
+            ast.body.GetComponent<Rigidbody>().mass = etscale;
 
             Vector3 loc = new Vector3(random.Next(-(int)spawnField.x, (int)spawnField.x), random.Next(-(int)spawnField.y, (int)spawnField.y), spawner.transform.position.z);
             loc.z += Mathf.Sqrt((loc.x * loc.x) + (loc.y * loc.y)) * coneSpawn;
 
-            et.body.transform.position = loc;
-            et.body.transform.rotation = new Quaternion((float)random.NextDouble() * 1000 % 360, (float)random.NextDouble() * 1000 % 360, (float)random.NextDouble() * 1000 % 360, 1);
+            ast.body.transform.position = loc;
+            ast.body.transform.rotation = new Quaternion((float)random.NextDouble() * 1000 % 360, (float)random.NextDouble() * 1000 % 360, (float)random.NextDouble() * 1000 % 360, 1);
 
-            enemies.Add(et);
+            asteroids.Add(ast);
         }
     }
 }
