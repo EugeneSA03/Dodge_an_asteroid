@@ -25,8 +25,6 @@ public class SpawnerScript : MonoBehaviour
 
     [SerializeField] private Vector2 spawnField = Vector2.zero;
 
-    [SerializeField] private bool isPlaying = false;
-
     [SerializeField] private float coneSpawn = -1.2f;
 
     [SerializeField] private int goldChance;
@@ -52,9 +50,8 @@ public class SpawnerScript : MonoBehaviour
             if (asteroids.Count < numOfAsteroids) {
                 SpawnAsteroid(2);
             }
-
         }
-        if (gameStatus == 1) {
+        if (gameStatus == 1 || gameStatus == 3) {
             for (int i = 0; i < asteroids.Count; i++) {
                 if (asteroids[i].body.transform.position.z > spawner.transform.position.z + 1 ||
                     asteroids[i].body.transform.position.z < -10 ||
@@ -97,6 +94,17 @@ public class SpawnerScript : MonoBehaviour
             ast.body.transform.rotation = new Quaternion((float)random.NextDouble() * 1000 % 360, (float)random.NextDouble() * 1000 % 360, (float)random.NextDouble() * 1000 % 360, 1);
 
             asteroids.Add(ast);
+        }
+    }
+
+    public static void CoinDestroy(Collider coinCollider) {
+        for (int i = 0; i < asteroids.Count; i++) {
+            if (asteroids[i].body.tag == "Coin") {
+                if (asteroids[i].body.GetComponent<Collider>() == coinCollider) {
+                    Destroy(asteroids[i].body);
+                    asteroids.RemoveAt(i);
+                }
+            }
         }
     }
 }

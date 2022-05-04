@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MenuOpen : MonoBehaviour
 {
@@ -12,12 +13,18 @@ public class MenuOpen : MonoBehaviour
     [SerializeField] private float moveSpeed = 0.01f;
     [SerializeField] private float moveLerp = 0;
 
+    [SerializeField] private TextMeshProUGUI coinsTxt;
+    [SerializeField] private TextMeshProUGUI highScoreTxt;
+
     // Start is called before the first frame update
     void Start()
     {
         menu = this.GetComponent<GameObject>();
         menuRT = this.GetComponent<RectTransform>();
         menuRT.anchoredPosition3D = startPosition;
+
+        coinsTxt.SetText(PlayerPrefs.GetInt("Total coins").ToString());
+        highScoreTxt.SetText(PlayerPrefs.GetFloat("High score").ToString());
     }
 
     // Update is called once per frame
@@ -30,6 +37,4 @@ public class MenuOpen : MonoBehaviour
             moveLerp += moveSpeed;
         }
     }
-
-    
 }

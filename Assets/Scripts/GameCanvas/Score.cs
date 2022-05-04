@@ -7,11 +7,11 @@ using TMPro;
 public class Score : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI tmpUI;
-    [SerializeField] private float scoreMultiply = 1;
-    [SerializeField] private float scoreForLvl = 1000;
-    [SerializeField] private float scoreForCoin = 100;
+    [SerializeField] static private float scoreMultiplier = 1;
+    [SerializeField] static private float scoreForLvl = 1000;
+    [SerializeField] static private float scoreForCoin = 100;
 
-    [SerializeField] public float scoreValue = 0;
+    [SerializeField] static private float scoreValue = 0;
 
     private int gameStatus;
 
@@ -25,8 +25,20 @@ public class Score : MonoBehaviour
 
     private void FixedUpdate() {
         if (gameStatus == 1) {
-            scoreValue += Time.unscaledDeltaTime * scoreMultiply * (SpawnerScript.asteroids.Count / 10);
+            scoreValue += Time.unscaledDeltaTime * scoreMultiplier * (SpawnerScript.asteroids.Count / 10);
             tmpUI.SetText(Mathf.Round(scoreValue).ToString());
         }
+    }
+
+    public static void AddScoreForCoin() {
+        scoreValue += scoreForCoin * scoreMultiplier;
+    }
+
+    public static void AddScoreForLvl() {
+        scoreValue += scoreForLvl * scoreMultiplier;
+    }
+
+    public static void IncreaseScoreMultiplier() {
+        scoreMultiplier += 0.15f;
     }
 }

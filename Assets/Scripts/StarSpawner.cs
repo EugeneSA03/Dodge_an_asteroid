@@ -22,8 +22,10 @@ public class StarSpawner : MonoBehaviour
     [SerializeField] private Color whiteLightColor;
     [SerializeField] private Color blueLightColor;
 
-    public static List<Star> stars;
+    public static Star star;
     private System.Random random = new System.Random();
+
+    private int gameStatus = 4;
 
     public class Star {
         public GameObject prefab;
@@ -53,62 +55,93 @@ public class StarSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        stars = new List<Star>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        star = new Star(prefab);
+        SpawnStar(false);
+
+        GlobalEventManager.OnGameStatusChanged.AddListener(_gameStatus => gameStatus = _gameStatus);
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
+        if (star != null) {
+            star.prefab.transform.LookAt(player.transform);
+        }
     }
 
     void FixedUpdate() {
-        if (stars.Count < 1) {
-            GameObject temp = Instantiate(prefab);
 
-            Star tStar = new Star(temp);
+        if (star == null) {
+            SpawnStar(true);
+        }
 
-            float lScale = random.Next(60, 100);
+        if (star.prefab.transform.position.z > this.transform.position.z) {
+            PlayerControllerScript.MoveStar(true);
+        }
+        else if (gameStatus == 3) {
+            GlobalEventManager.OnGameStatusChanged.Invoke(1);
+        }
 
-            //Set random star color
-            switch (random.Next(0,4)) {
-                //Star color RED
-                case 0: 
-                    tStar.psColorOLT.color = redStarColor;
-                    tStar.coreRender.material.color = redCoreColor;
-                    tStar.starLight.color = redLightColor;
-                    break;
-                //Star color YELLOW
-                case 1:
-                    tStar.psColorOLT.color = yellowStarColor;
-                    tStar.coreRender.material.color = yellowCoreColor;
-                    tStar.starLight.color = yellowLightColor;
-                    break;
-                //Star color WHITE
-                case 2: 
-                    tStar.psColorOLT.color = whiteStarColor;
-                    tStar.coreRender.material.color = whiteCoreColor;
-                    tStar.starLight.color = whiteLightColor;
-                    break;
-                //Star color BLUE
-                case 3: 
-                    tStar.psColorOLT.color = blueStarColor;
-                    tStar.coreRender.material.color = blueCoreColor;
-                    tStar.starLight.color = blueLightColor;
-                    break;
+        if (star.prefab.transform.position.z < -50) {
+            if (gameStatus != 3) {
+                GlobalEventManager.OnGameStatusChanged.Invoke(3);
             }
+            if (star.starLight.intensity > 0) {
+                star.starLight.intensity -= 0.005f;
+            }
+            else {
+                Destroy(star.prefab);
+                star = null;
+            }
+        }
+    }
 
-            tStar.prefab.transform.position = new Vector3((random.Next(0, 2) * 2 - 1) * random.Next(170, 300), random.Next(-30, 30), this.transform.position.z);
-            tStar.prefab.transform.localScale = new Vector3(lScale, lScale, lScale);
-            tStar.psShape.radius = lScale;
-            tStar.ps.time = 6.0f;
-            tStar.psMain.startSize = lScale;
+    private void SpawnStar(bool isJump) {
+        GameObject temp = Instantiate(prefab);
 
-            stars.Add(tStar);
+        Star tStar = new Star(temp);
+
+        float lScale = random.Next(60, 100);
+
+        //Set random star color
+        switch (random.Next(0, 4)) {
+            //Star color RED
+            case 0:
+                tStar.psColorOLT.color = redStarColor;
+                tStar.coreRender.material.color = redCoreColor;
+                tStar.starLight.color = redLightColor;
+                break;
+            //Star color YELLOW
+            case 1:
+                tStar.psColorOLT.color = yellowStarColor;
+                tStar.coreRender.material.color = yellowCoreColor;
+                tStar.starLight.color = yellowLightColor;
+                break;
+            //Star color WHITE
+            case 2:
+                tStar.psColorOLT.color = whiteStarColor;
+                tStar.coreRender.material.color = whiteCoreColor;
+                tStar.starLight.color = whiteLightColor;
+                break;
+            //Star color BLUE
+            case 3:
+                tStar.psColorOLT.color = blueStarColor;
+                tStar.coreRender.material.color = blueCoreColor;
+                tStar.starLight.color = blueLightColor;
+                break;
         }
 
-        for (int i = 0; i < stars.Count; i++) {
-            stars[i].prefab.transform.LookAt(player.transform);
+        if (isJump) {
+            tStar.prefab.transform.position = new Vector3((random.Next(0, 2) * 2 - 1) * random.Next(260, 300), random.Next(-30, 30), 1000);
+            Score.AddScoreForLvl();
+        } else {
+            tStar.prefab.transform.position = new Vector3((random.Next(0, 2) * 2 - 1) * random.Next(260, 300), random.Next(-30, 30), this.transform.position.z);
         }
+        tStar.prefab.transform.localScale = new Vector3(lScale, lScale, lScale);
+        tStar.psShape.radius = lScale;
+        tStar.ps.time = 6.0f;
+        tStar.psMain.startSize = lScale;
+
+        star = tStar;
     }
 }

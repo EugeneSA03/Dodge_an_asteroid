@@ -23,6 +23,9 @@ public class PlayerCollision : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        
+        if (other.gameObject.tag == "Coin" && this.GetComponent<Collider>().tag == "MainCollider") {
+            Coins.AddCoin();
+            SpawnerScript.CoinDestroy(other);
+        }
     }
 }

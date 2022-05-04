@@ -11,7 +11,7 @@ public class GameControllerScript : MonoBehaviour
     void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 120;
 
         GlobalEventManager.OnGameStatusChanged.AddListener(SetUI);
         GlobalEventManager.OnGameStatusChanged.Invoke(4);
@@ -33,6 +33,10 @@ public class GameControllerScript : MonoBehaviour
                 gameUI.SetActive(false);
                 break;
             case 1:
+                menuUI.SetActive(false);
+                gameUI.SetActive(true);
+                break;
+            case 2:
                 menuUI.SetActive(false);
                 gameUI.SetActive(true);
                 break;
