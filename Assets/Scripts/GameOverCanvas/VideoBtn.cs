@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CamInert : MonoBehaviour
+public class VideoBtn : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,5 +14,9 @@ public class CamInert : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void LoadRewardedAd() {
+        RewardedAd.ad.LoadAd();
     }
 }

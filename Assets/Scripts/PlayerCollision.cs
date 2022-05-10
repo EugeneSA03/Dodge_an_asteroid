@@ -9,7 +9,7 @@ public class PlayerCollision : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GlobalEventManager.OnGameStatusChanged.AddListener(_gameStatus => gameStatus = _gameStatus);
+        GlobalEventManager.OnGameStatusChanged.AddListener(gStat => gameStatus = gStat);
     }
 
     // Update is called once per frame
@@ -19,7 +19,9 @@ public class PlayerCollision : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision) {
-        GlobalEventManager.OnGameStatusChanged.Invoke(0);
+        if (gameStatus != 3) {
+            GlobalEventManager.OnGameStatusChanged.Invoke(3);
+        }
     }
 
     private void OnTriggerEnter(Collider other) {

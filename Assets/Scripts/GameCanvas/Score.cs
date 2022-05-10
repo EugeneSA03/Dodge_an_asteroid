@@ -41,4 +41,12 @@ public class Score : MonoBehaviour
     public static void IncreaseScoreMultiplier() {
         scoreMultiplier += 0.15f;
     }
+
+    public static float GetScore() {
+        return scoreValue;
+    }
+
+    public static void ResetScore() {
+        scoreValue = 0;
+    }
 }

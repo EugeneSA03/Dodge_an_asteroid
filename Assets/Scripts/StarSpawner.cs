@@ -23,8 +23,8 @@ public class StarSpawner : MonoBehaviour
     [SerializeField] private Color blueLightColor;
 
     public static Star star;
-    private System.Random random = new System.Random();
 
+    private System.Random random = new System.Random();
     private int gameStatus = 4;
 
     public class Star {
@@ -39,8 +39,8 @@ public class StarSpawner : MonoBehaviour
 
         public Light starLight;
 
-        public Star(GameObject _prefab) {
-            prefab = _prefab;
+        public Star(GameObject pref) {
+            prefab = pref;
 
             ps = prefab.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
             psShape = ps.shape;
@@ -59,7 +59,7 @@ public class StarSpawner : MonoBehaviour
         star = new Star(prefab);
         SpawnStar(false);
 
-        GlobalEventManager.OnGameStatusChanged.AddListener(_gameStatus => gameStatus = _gameStatus);
+        GlobalEventManager.OnGameStatusChanged.AddListener(gStat => gameStatus = gStat);
     }
 
     // Update is called once per frame
@@ -72,19 +72,27 @@ public class StarSpawner : MonoBehaviour
     void FixedUpdate() {
 
         if (star == null) {
-            SpawnStar(true);
+            if (gameStatus == 2) {
+                SpawnStar(true);
+            }
+            else if (gameStatus == 1) {
+                SpawnStar(false);
+            }
+            else if (gameStatus == 0) {
+                SpawnStar(false);
+            }
         }
 
         if (star.prefab.transform.position.z > this.transform.position.z) {
             PlayerControllerScript.MoveStar(true);
         }
-        else if (gameStatus == 3) {
+        else if (gameStatus == 2) {
             GlobalEventManager.OnGameStatusChanged.Invoke(1);
         }
 
         if (star.prefab.transform.position.z < -50) {
-            if (gameStatus != 3) {
-                GlobalEventManager.OnGameStatusChanged.Invoke(3);
+            if (gameStatus != 2) {
+                GlobalEventManager.OnGameStatusChanged.Invoke(2);
             }
             if (star.starLight.intensity > 0) {
                 star.starLight.intensity -= 0.005f;
@@ -143,5 +151,10 @@ public class StarSpawner : MonoBehaviour
         tStar.psMain.startSize = lScale;
 
         star = tStar;
+    }
+
+    public static void ResetStar() {
+        Destroy(star.prefab);
+        star = null;
     }
 }

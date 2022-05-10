@@ -7,6 +7,7 @@ TagManager:
   - Coin
   - SecondaryCollider
   - MainCollider
+  - Engine
   layers:
   - Default
   - TransparentFX

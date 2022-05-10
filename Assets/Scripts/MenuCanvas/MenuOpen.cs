@@ -23,6 +23,8 @@ public class MenuOpen : MonoBehaviour
         menuRT = this.GetComponent<RectTransform>();
         menuRT.anchoredPosition3D = startPosition;
 
+        GlobalEventManager.OnGameStatusChanged.AddListener(UpdateUI);
+
         coinsTxt.SetText(PlayerPrefs.GetInt("Total coins").ToString());
         highScoreTxt.SetText(PlayerPrefs.GetFloat("High score").ToString());
     }
@@ -36,5 +38,10 @@ public class MenuOpen : MonoBehaviour
             }
             moveLerp += moveSpeed;
         }
+    }
+
+    private void UpdateUI(int _gameStatus) {
+        coinsTxt.SetText(PlayerPrefs.GetInt("Total coins").ToString());
+        highScoreTxt.SetText(PlayerPrefs.GetFloat("High score").ToString());
     }
 }

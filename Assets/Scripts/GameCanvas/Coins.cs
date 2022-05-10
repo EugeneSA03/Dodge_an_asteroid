@@ -25,4 +25,12 @@ public class Coins : MonoBehaviour
         coins++;
         Score.AddScoreForCoin();
     }
+
+    public static int GetCoins() {
+        return coins;
+    }
+
+    public static void ResetCoins() {
+        coins = 0;
+    }
 }

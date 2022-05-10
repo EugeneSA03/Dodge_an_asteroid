@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerControllerScript : MonoBehaviour
 {
     [SerializeField] private Camera camMain;
-    [SerializeField] private float camSpeed;
     [SerializeField] private Vector3 camOffset;
     [SerializeField] private Vector3 camDefaultPosition;
 
@@ -19,12 +18,12 @@ public class PlayerControllerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GlobalEventManager.OnGameStatusChanged.AddListener(_gameStatus => gameStatus = _gameStatus);
+        GlobalEventManager.OnGameStatusChanged.AddListener(gStat => gameStatus = gStat);
         camMain = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     void FixedUpdate() {
-        if (gameStatus == 1 || gameStatus == 3) {
+        if (gameStatus == 1 || gameStatus == 2) {
             direction = Vector3.zero;
             MoveAsteroids(); 
             MoveCamera();

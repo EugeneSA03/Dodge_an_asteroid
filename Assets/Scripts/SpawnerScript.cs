@@ -39,7 +39,7 @@ public class SpawnerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GlobalEventManager.OnGameStatusChanged.AddListener(GameStatus => gameStatus = GameStatus);
+        GlobalEventManager.OnGameStatusChanged.AddListener(gStat => gameStatus = gStat);
         asteroids = new List<Asteroid>();
         spawner = this.gameObject;
         random = new System.Random();
@@ -51,7 +51,7 @@ public class SpawnerScript : MonoBehaviour
                 SpawnAsteroid(2);
             }
         }
-        if (gameStatus == 1 || gameStatus == 3) {
+        if (gameStatus == 1 || gameStatus == 2) {
             for (int i = 0; i < asteroids.Count; i++) {
                 if (asteroids[i].body.transform.position.z > spawner.transform.position.z + 1 ||
                     asteroids[i].body.transform.position.z < -10 ||
@@ -106,5 +106,12 @@ public class SpawnerScript : MonoBehaviour
                 }
             }
         }
+    }
+
+    public static void ResetAsteroids() {
+        for (int i = 0; i < asteroids.Count; i++) {
+            Destroy(asteroids[i].body);
+        }
+        asteroids.Clear();
     }
 }

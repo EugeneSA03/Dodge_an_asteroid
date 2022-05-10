@@ -762,6 +762,7 @@ PlayerSettings:
   vrEditorSettings: {}
   cloudServicesEnabled:
     UNet: 1
+    Unity Ads: 1
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -775,11 +776,11 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 0
-  cloudProjectId: 
+  cloudProjectId: 107a9d4b-0e64-4627-af87-ae8096b36efb
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: Dodge an asteroid
+  organizationId: eugenesa03
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
