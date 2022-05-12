@@ -8,7 +8,12 @@ public class MenuCanvas : MonoBehaviour
         GlobalEventManager.OnGameStatusChanged.Invoke(1);
     }
 
-    public void ExitBtnPressed() {
+    public void OnExitButtonClick() {
+        PlayerPrefs.Save();
         Application.Quit();
+    }
+
+    public void OnSettingsButtonClick() {
+        GlobalEventManager.OnGameStatusChanged.Invoke(5);
     }
 }

@@ -13,8 +13,11 @@ public class GlobalEventManager : MonoBehaviour
     /// <item>(2) JUMP</item>
     /// <item>(3) OVER</item>
     /// <item>(4) OPEN APP</item>
+    /// <item>(5) SETTINGS</item>
+    /// <item>(6) SHOP</item>
     /// </list>
     /// </param>
     /// </summary>
     static public UnityEvent<int> OnGameStatusChanged = new UnityEvent<int>();
+    static public UnityEvent OnSettingsChanged = new UnityEvent();
 }
