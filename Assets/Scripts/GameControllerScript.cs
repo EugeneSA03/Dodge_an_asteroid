@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameControllerScript : MonoBehaviour
 {
@@ -11,12 +12,16 @@ public class GameControllerScript : MonoBehaviour
     [SerializeField] private GameObject shopUI = null;
     [SerializeField] private GameObject fpsUI = null;
 
+    private TextMeshProUGUI fpsTxt;
 
     void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         UpdateSettings();
+
+        fpsTxt = fpsUI.GetComponentInChildren<TextMeshProUGUI>();
+        InvokeRepeating("UpdateFPS", 1, 0.5f);
 
         GlobalEventManager.OnGameStatusChanged.AddListener(SetUI);
         GlobalEventManager.OnGameStatusChanged.Invoke(4);
@@ -79,7 +84,7 @@ public class GameControllerScript : MonoBehaviour
     }
 
     void UpdateSettings() {
-        Application.targetFrameRate = PlayerPrefs.GetInt("FrameRate");
+        Application.targetFrameRate = PlayerPrefs.GetInt("FrameRate") + 3;
 
         ChangeFPSUI();
     }
@@ -89,5 +94,9 @@ public class GameControllerScript : MonoBehaviour
             fpsUI.SetActive(false);
         else
             fpsUI.SetActive(true);
+    }
+
+    void UpdateFPS() {
+        fpsTxt.SetText(((int)(1f / Time.unscaledDeltaTime)).ToString());
     }
 }

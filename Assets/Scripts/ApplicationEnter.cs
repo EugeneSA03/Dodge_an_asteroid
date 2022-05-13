@@ -8,7 +8,7 @@ public class ApplicationEnter : MonoBehaviour {
     [SerializeField] private TMP_InputField music;
     [SerializeField] private TMP_InputField frameRate;
     [SerializeField] private Toggle showFPS;
-    [SerializeField] private int inputType;
+    [SerializeField] private TextMeshProUGUI inputType;
     [SerializeField] private float calibrateX;
     [SerializeField] private float calibrateY;
 
@@ -50,6 +50,7 @@ public class ApplicationEnter : MonoBehaviour {
         music.text = PlayerPrefs.GetInt("Music").ToString();
         frameRate.text = PlayerPrefs.GetInt("FrameRate").ToString();
         showFPS.isOn = PlayerPrefs.GetInt("ShowFPS") == 1 ? true : false;
+        inputType.SetText(PlayerPrefs.GetInt("InputType") == 0 ? "Accelerometer" : "Joystick");
 
         GlobalEventManager.OnSettingsChanged.Invoke();
     }
