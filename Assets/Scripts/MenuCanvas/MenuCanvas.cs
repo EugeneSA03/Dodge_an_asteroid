@@ -16,4 +16,12 @@ public class MenuCanvas : MonoBehaviour
     public void OnSettingsButtonClick() {
         GlobalEventManager.OnGameStatusChanged.Invoke(5);
     }
+
+    public void OnShopButtonClick() {
+        GlobalEventManager.OnGameStatusChanged.Invoke(6);
+    }
+
+    public void OnSelectButtonClick() {
+        GlobalEventManager.OnGameStatusChanged.Invoke(0);
+    }
 }
