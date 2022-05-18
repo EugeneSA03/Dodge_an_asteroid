@@ -84,7 +84,7 @@ public class StarSpawner : MonoBehaviour
         }
 
         if (star.prefab.transform.position.z > this.transform.position.z) {
-            PlayerControllerScript.MoveStar(true);
+            PlayerController.MoveStar(true);
         }
         else if (gameStatus == 2) {
             GlobalEventManager.OnGameStatusChanged.Invoke(1);

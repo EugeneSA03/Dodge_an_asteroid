@@ -8,6 +8,7 @@ TagManager:
   - SecondaryCollider
   - MainCollider
   - Engine
+  - Joystick
   layers:
   - Default
   - TransparentFX

@@ -9,8 +9,7 @@ public class ApplicationEnter : MonoBehaviour {
     [SerializeField] private TMP_InputField frameRate;
     [SerializeField] private Toggle showFPS;
     [SerializeField] private TextMeshProUGUI inputType;
-    [SerializeField] private float calibrateX;
-    [SerializeField] private float calibrateY;
+    [SerializeField] private Vector3 calibrate;
 
     void Awake() {
         if (!PlayerPrefs.HasKey("Total coins")) {
@@ -51,6 +50,7 @@ public class ApplicationEnter : MonoBehaviour {
         frameRate.text = PlayerPrefs.GetInt("FrameRate").ToString();
         showFPS.isOn = PlayerPrefs.GetInt("ShowFPS") == 1 ? true : false;
         inputType.SetText(PlayerPrefs.GetInt("InputType") == 0 ? "Accelerometer" : "Joystick");
+        PlayerController.SetAccelerometerOffset();
 
         GlobalEventManager.OnSettingsChanged.Invoke();
     }

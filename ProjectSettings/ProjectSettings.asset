@@ -153,7 +153,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.DefaultCompany.aaaaaaaaaaaaa
+    Android: com.EugeneSAdev.Dodgeanasteroid
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -775,7 +775,7 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   cloudProjectId: 107a9d4b-0e64-4627-af87-ae8096b36efb
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []

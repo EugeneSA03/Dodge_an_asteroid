@@ -21,7 +21,7 @@ public class Save : MonoBehaviour
         PlayerPrefs.SetFloat("calibrateX", calibrateX);
         PlayerPrefs.SetFloat("calibrateY", calibrateY);
         PlayerPrefs.Save();
-        Debug.Log(inputType.text);
+
         GlobalEventManager.OnSettingsChanged.Invoke();
         GlobalEventManager.OnGameStatusChanged.Invoke(0);
     }

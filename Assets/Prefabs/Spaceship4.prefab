@@ -5775,10 +5775,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camMain: {fileID: 0}
-  camSpeed: 0
   camOffset: {x: 0.7, y: 0.7, z: 0}
   camDefaultPosition: {x: 0, y: 2, z: -4.5}
   gameStatus: 0
+  joystick: {fileID: 8170153791668043265, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
   playerSpeed: 1
 --- !u!1 &9009965104972074356
 GameObject:

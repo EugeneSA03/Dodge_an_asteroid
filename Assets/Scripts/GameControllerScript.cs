@@ -11,6 +11,7 @@ public class GameControllerScript : MonoBehaviour
     [SerializeField] private GameObject settUI = null;
     [SerializeField] private GameObject shopUI = null;
     [SerializeField] private GameObject fpsUI = null;
+    [SerializeField] private GameObject joystickUI = null;
 
     private TextMeshProUGUI fpsTxt;
 
@@ -21,7 +22,7 @@ public class GameControllerScript : MonoBehaviour
         UpdateSettings();
 
         fpsTxt = fpsUI.GetComponentInChildren<TextMeshProUGUI>();
-        InvokeRepeating("UpdateFPS", 1, 0.5f);
+        InvokeRepeating("UpdateFPS", 0.5f, 1f);
 
         GlobalEventManager.OnGameStatusChanged.AddListener(SetUI);
         GlobalEventManager.OnGameStatusChanged.Invoke(4);
@@ -85,6 +86,8 @@ public class GameControllerScript : MonoBehaviour
 
     void UpdateSettings() {
         Application.targetFrameRate = PlayerPrefs.GetInt("FrameRate") + 3;
+
+        joystickUI.SetActive(PlayerPrefs.GetInt("InputType") == 1);
 
         ChangeFPSUI();
     }

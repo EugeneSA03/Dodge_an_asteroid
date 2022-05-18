@@ -2,24 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControllerScript : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Camera camMain;
     [SerializeField] private Vector3 camOffset;
     [SerializeField] private Vector3 camDefaultPosition;
 
     [SerializeField] private int gameStatus;
+
+    [SerializeField] private FloatingJoystick joystick;
     [SerializeField] private float playerSpeed = 1;
 
     [SerializeField] private static float starSpeed = 10;
 
-    public static Vector3 direction = Vector3.zero;
+    Vector3 direction = Vector3.zero;
+    public static Vector3 offset = Vector3.zero;
+
+    bool isJoystick;
 
     // Start is called before the first frame update
     void Start()
     {
+        SetInputType();
+
         GlobalEventManager.OnGameStatusChanged.AddListener(gStat => gameStatus = gStat);
         camMain = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        if (joystick == null)
+            joystick = GameObject.FindGameObjectWithTag("Joystick").GetComponent<FloatingJoystick>();
+
+        GlobalEventManager.OnSettingsChanged.AddListener(SetInputType);
+        GlobalEventManager.OnSettingsChanged.AddListener(SetAccelerometerOffset);
     }
 
     void FixedUpdate() {
@@ -32,20 +44,29 @@ public class PlayerControllerScript : MonoBehaviour
     }
 
     private void MoveAsteroids() {
-        direction.x = -Input.acceleration.x * playerSpeed;
-        direction.y = Input.acceleration.y * playerSpeed;
 
-        if (Input.GetKey(KeyCode.RightArrow)) {
-            direction.x = -1 * playerSpeed;
+        if (isJoystick) {
+            direction.x = -joystick.Horizontal * playerSpeed;
+            direction.y = -joystick.Vertical * playerSpeed;
         }
-        if (Input.GetKey(KeyCode.UpArrow)) {
-            direction.y = 1 * playerSpeed;
-        }
-        if (Input.GetKey(KeyCode.LeftArrow)) {
-            direction.x = 1 * playerSpeed;
-        }
-        if (Input.GetKey(KeyCode.DownArrow)) {
-            direction.y = -1 * playerSpeed;
+        else {
+            direction = Input.acceleration;
+
+            direction.x = (direction.x - offset.x) * -playerSpeed;
+            direction.y = (direction.y - offset.y) * playerSpeed;
+
+            if (Input.GetKey(KeyCode.RightArrow)) {
+                direction.x = -1 * playerSpeed;
+            }
+            if (Input.GetKey(KeyCode.UpArrow)) {
+                direction.y = 1 * playerSpeed;
+            }
+            if (Input.GetKey(KeyCode.LeftArrow)) {
+                direction.x = 1 * playerSpeed;
+            }
+            if (Input.GetKey(KeyCode.DownArrow)) {
+                direction.y = -1 * playerSpeed;
+            }
         }
 
         for (int i = 0; i < SpawnerScript.asteroids.Count; i++) {
@@ -70,5 +91,14 @@ public class PlayerControllerScript : MonoBehaviour
                                                                      StarSpawner.star.prefab.transform.position.y,
                                                                      StarSpawner.star.prefab.transform.position.z - starSpeed * Time.deltaTime);
         }
+    }
+
+    void SetInputType() {
+        isJoystick = PlayerPrefs.GetInt("InputType") == 1;
+    }
+
+    public static void SetAccelerometerOffset() {
+        offset.x = PlayerPrefs.GetFloat("CalibrateX");
+        offset.y = PlayerPrefs.GetFloat("CalibrateY");
     }
 }
