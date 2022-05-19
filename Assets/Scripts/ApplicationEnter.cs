@@ -44,6 +44,21 @@ public class ApplicationEnter : MonoBehaviour {
         if (!PlayerPrefs.HasKey("CalibrateY")) {
             PlayerPrefs.SetFloat("CalibrateY", 0);
         }
+        if (!PlayerPrefs.HasKey("ShipIndex")) {
+            PlayerPrefs.SetInt("ShipIndex", 0);
+        }
+        if (!PlayerPrefs.HasKey("SH1")) {
+            PlayerPrefs.SetString("SH1", "true");
+        }
+        if (!PlayerPrefs.HasKey("SH2")) {
+            PlayerPrefs.SetString("SH2", "false");
+        }
+        if (!PlayerPrefs.HasKey("SH3")) {
+            PlayerPrefs.SetString("SH3", "false");
+        }
+        if (!PlayerPrefs.HasKey("SH4")) {
+            PlayerPrefs.SetString("SH4", "false");
+        }
         PlayerPrefs.Save();
 
         music.text = PlayerPrefs.GetInt("Music").ToString();

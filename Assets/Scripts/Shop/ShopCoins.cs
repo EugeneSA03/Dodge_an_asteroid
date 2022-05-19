@@ -10,6 +10,7 @@ public class ShopCoins : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        UpdateCoins();
         GlobalEventManager.OnGameStatusChanged.AddListener((gameStat) => UpdateCoins());
     }
 

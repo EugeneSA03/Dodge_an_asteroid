@@ -22,6 +22,7 @@ public class MenuCanvas : MonoBehaviour
     }
 
     public void OnSelectButtonClick() {
+        GlobalEventManager.OnSettingsChanged.Invoke();
         GlobalEventManager.OnGameStatusChanged.Invoke(0);
     }
 }
