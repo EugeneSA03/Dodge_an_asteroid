@@ -1006,7 +1006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameId: 4746203
-  testMode: 1
+  testMode: 0
 --- !u!4 &187022523
 Transform:
   m_ObjectHideFlags: 0
