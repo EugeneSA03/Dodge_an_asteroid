@@ -55,15 +55,26 @@ public class StarSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        FindPlayer();
+
         star = new Star(prefab);
         SpawnStar(false);
 
         GlobalEventManager.OnGameStatusChanged.AddListener(gStat => gameStatus = gStat);
+
+        GlobalEventManager.OnSettingsChanged.AddListener(FindPlayer);
+
+        //InvokeRepeating("SetLightDirection", 0.5f, 0.5f);
     }
 
-    // Update is called once per frame
+    void FindPlayer() {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
     void Update() {
+        if (player == null) {
+            FindPlayer();
+        }
         if (star != null) {
             star.prefab.transform.LookAt(player.transform);
         }

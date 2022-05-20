@@ -13,7 +13,10 @@ public class GameControllerScript : MonoBehaviour
     [SerializeField] private GameObject fpsUI = null;
     [SerializeField] private GameObject joystickUI = null;
 
+    [SerializeField] private List<GameObject> ships;
+
     private TextMeshProUGUI fpsTxt;
+    private GameObject[] players;
 
     void Start()
     {
@@ -28,6 +31,10 @@ public class GameControllerScript : MonoBehaviour
         GlobalEventManager.OnGameStatusChanged.Invoke(4);
 
         GlobalEventManager.OnSettingsChanged.AddListener(UpdateSettings);
+    }
+
+    private void FixedUpdate() {
+        //Debug.Log(gameUI.activeSelf);
     }
 
     void SetUI(int gameStatus) {
@@ -86,6 +93,13 @@ public class GameControllerScript : MonoBehaviour
 
     void UpdateSettings() {
         Application.targetFrameRate = PlayerPrefs.GetInt("FrameRate") + 3;
+
+        players = GameObject.FindGameObjectsWithTag("Player");
+        for (int i = 0; i < players.Length; i++) {
+            Destroy(players[i]);
+        }
+
+        Instantiate(ships[PlayerPrefs.GetInt("ShipIndex")]);
 
         joystickUI.SetActive(PlayerPrefs.GetInt("InputType") == 1);
 

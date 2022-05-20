@@ -11,13 +11,14 @@ public class BuyButton : MonoBehaviour
 
     public void OnBuyButtonClick() {
         total = PlayerPrefs.GetInt("Total coins");
-        int shipCost = int.Parse(cost.text);
-
-        if (shipCost <= total) {
-            PlayerPrefs.SetInt("Total coins", total - shipCost);
-            PlayerPrefs.SetString("SH" + (ShipImage.currentIndex + 1).ToString(), "true");
-            PlayerPrefs.Save();
-            GlobalEventManager.OnSettingsChanged.Invoke();
+        int shipCost;
+        if (int.TryParse(cost.text, out shipCost)) {
+            if (shipCost <= total) {
+                PlayerPrefs.SetInt("Total coins", total - shipCost);
+                PlayerPrefs.SetString("SH" + (ShipImage.currentIndex + 1).ToString(), "true");
+                PlayerPrefs.Save();
+                GlobalEventManager.OnSettingsChanged.Invoke();
+            }
         }
     }
 }

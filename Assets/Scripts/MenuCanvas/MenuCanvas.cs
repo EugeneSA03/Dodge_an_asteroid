@@ -22,6 +22,10 @@ public class MenuCanvas : MonoBehaviour
     }
 
     public void OnSelectButtonClick() {
+        if (ShipImage.IsShipBought(ShipImage.currentIndex))
+            PlayerPrefs.SetInt("ShipIndex", ShipImage.currentIndex);
+        else
+            PlayerPrefs.SetInt("ShipIndex", 0);
         GlobalEventManager.OnSettingsChanged.Invoke();
         GlobalEventManager.OnGameStatusChanged.Invoke(0);
     }

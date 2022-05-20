@@ -12,6 +12,7 @@ public class ShipImage : MonoBehaviour
     [SerializeField] private TextMeshProUGUI costTxt;
 
     public static int currentIndex;
+    public static TextMeshProUGUI shs;
     // Start is called before the first frame update
     void Start() {
         for (int i = 0; i < ships.Count; i++) {
@@ -39,5 +40,10 @@ public class ShipImage : MonoBehaviour
 
         ships[index].SetActive(true);
         currentIndex = index;
+        shs = costTxt;
+    }
+
+    public static bool IsShipBought(int index) {
+        return shs.text == "Bought";
     }
 }

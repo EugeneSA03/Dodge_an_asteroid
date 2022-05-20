@@ -1060,29 +1060,29 @@ ParticleSystem:
     curve:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 1
+      scalar: 4
       minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
+          time: 0.048923492
+          value: 0.015380859
+          inSlope: 0.94338423
+          outSlope: 0.94338423
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0.09861936
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 1
+          inSlope: 0
           outSlope: 0
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -4987,6 +4987,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 556732873757501990}
+  - component: {fileID: 1853793081744072469}
   m_Layer: 0
   m_Name: RightEngine
   m_TagString: Engine
@@ -5011,6 +5012,20 @@ Transform:
   m_Father: {fileID: 6211200119834283185}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1853793081744072469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3300308123485247500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2276b5d3d3fcaac4ea118aab23261d4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 3121027873532826896}
+  eLight: {fileID: 2455310662236586347}
 --- !u!1 &3458185031025659084
 GameObject:
   m_ObjectHideFlags: 0
@@ -6140,29 +6155,29 @@ ParticleSystem:
     curve:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 1
+      scalar: 4
       minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
+          time: 0.048923492
+          value: 0.015380859
+          inSlope: 0.94338423
+          outSlope: 0.94338423
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0.09861936
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 1
+          inSlope: 0
           outSlope: 0
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -10276,6 +10291,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2007516332417091761}
+  - component: {fileID: 5804137882780193713}
   m_Layer: 0
   m_Name: LeftEngine
   m_TagString: Engine
@@ -10300,6 +10316,20 @@ Transform:
   m_Father: {fileID: 6211200119834283185}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5804137882780193713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4775172470184546402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2276b5d3d3fcaac4ea118aab23261d4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 8767239634563184960}
+  eLight: {fileID: 8540246173038561637}
 --- !u!1 &5104728590861286403
 GameObject:
   m_ObjectHideFlags: 0
