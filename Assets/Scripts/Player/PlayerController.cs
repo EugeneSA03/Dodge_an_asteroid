@@ -27,11 +27,12 @@ public class PlayerController : MonoBehaviour
 
         GlobalEventManager.OnGameStatusChanged.AddListener(gStat => gameStatus = gStat);
         camMain = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        if (joystick == null)
-            joystick = GameObject.FindGameObjectWithTag("Joystick").GetComponent<FloatingJoystick>();
+
+        SetJoystick();
 
         GlobalEventManager.OnSettingsChanged.AddListener(SetInputType);
         GlobalEventManager.OnSettingsChanged.AddListener(SetAccelerometerOffset);
+        GlobalEventManager.OnSettingsChanged.AddListener(SetJoystick);
     }
 
     void FixedUpdate() {
@@ -95,6 +96,11 @@ public class PlayerController : MonoBehaviour
 
     void SetInputType() {
         isJoystick = PlayerPrefs.GetInt("InputType") == 1;
+    }
+
+    void SetJoystick() {
+        if (isJoystick)
+            joystick = GameObject.FindGameObjectWithTag("Joystick").GetComponent<FloatingJoystick>();
     }
 
     public static void SetAccelerometerOffset() {
