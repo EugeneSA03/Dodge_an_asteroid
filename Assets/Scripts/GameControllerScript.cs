@@ -12,6 +12,7 @@ public class GameControllerScript : MonoBehaviour
     [SerializeField] private GameObject shopUI = null;
     [SerializeField] private GameObject fpsUI = null;
     [SerializeField] private GameObject joystickUI = null;
+    [SerializeField] private GameObject guideUI = null;
 
     [SerializeField] private List<GameObject> ships;
 
@@ -28,7 +29,15 @@ public class GameControllerScript : MonoBehaviour
         InvokeRepeating("UpdateFPS", 0.5f, 1f);
 
         GlobalEventManager.OnGameStatusChanged.AddListener(SetUI);
-        GlobalEventManager.OnGameStatusChanged.Invoke(4);
+        if (PlayerPrefs.GetInt("First start") == 1) {
+            guideUI.SetActive(true);
+            GlobalEventManager.OnGameStatusChanged.Invoke(7);
+            PlayerPrefs.SetInt("First start", 1);
+        }
+        else {
+            guideUI.SetActive(false);
+            GlobalEventManager.OnGameStatusChanged.Invoke(4);
+        }
 
         GlobalEventManager.OnSettingsChanged.AddListener(UpdateSettings);
     }
@@ -87,6 +96,13 @@ public class GameControllerScript : MonoBehaviour
                 overUI.SetActive(false);
                 settUI.SetActive(false);
                 shopUI.SetActive(true);
+                break;
+            case 7:
+                menuUI.SetActive(false);
+                gameUI.SetActive(false);
+                overUI.SetActive(false);
+                settUI.SetActive(false);
+                shopUI.SetActive(false);
                 break;
         }
     }
