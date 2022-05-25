@@ -29,7 +29,7 @@ public class GameControllerScript : MonoBehaviour
         InvokeRepeating("UpdateFPS", 0.5f, 1f);
 
         GlobalEventManager.OnGameStatusChanged.AddListener(SetUI);
-        if (PlayerPrefs.GetInt("First start") == 1) {
+        if (PlayerPrefs.GetInt("First start") == 0) {
             guideUI.SetActive(true);
             GlobalEventManager.OnGameStatusChanged.Invoke(7);
             PlayerPrefs.SetInt("First start", 1);

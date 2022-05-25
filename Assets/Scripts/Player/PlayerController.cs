@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private FloatingJoystick joystick;
     [SerializeField] private float playerSpeed = 1;
+    [SerializeField] private float accelerometerMultiply = 2f;
 
     [SerializeField] private static float starSpeed = 10;
 
@@ -52,6 +53,9 @@ public class PlayerController : MonoBehaviour
         }
         else {
             direction = Input.acceleration;
+
+            direction.x = Mathf.Clamp(direction.x * accelerometerMultiply, -1, 1);
+            direction.y = Mathf.Clamp(direction.y * accelerometerMultiply, -1, 1);
 
             direction.x = (direction.x - offset.x) * -playerSpeed;
             direction.y = (direction.y - offset.y) * playerSpeed;
